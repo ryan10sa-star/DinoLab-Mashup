@@ -329,6 +329,9 @@ const initialState = {
   quizBestStreak: 0,
   eggs: { common: 0, rare: 0, legendary: 0 },
   eggLog: [],
+  battleWins: 0,
+  battleLosses: 0,
+  battleStreak: 0,
   parent: { pin: "", locked: false },
 };
 
@@ -366,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDiscoveryGallery();
     refreshXPBar();
     refreshEggInventory();
+    initBattle();
     registerServiceWorker();
   });
 });
@@ -390,6 +394,12 @@ function cacheElements() {
     "hatch-btn", "hatch-result", "egg-log",
     "egg-common-count", "egg-rare-count", "egg-legendary-count",
     "app-header",
+    "battle-player-card", "battle-player-emoji", "battle-player-name",
+    "battle-player-stats", "battle-player-hp", "battle-player-hp-label",
+    "battle-enemy-card", "battle-enemy-emoji", "battle-enemy-name",
+    "battle-enemy-stats", "battle-enemy-hp", "battle-enemy-hp-label",
+    "battle-log", "battle-select-btn", "battle-attack-btn", "battle-special-btn",
+    "battle-result", "battle-record",
   ];
   ids.forEach((id) => {
     const el = document.getElementById(id);
@@ -474,6 +484,11 @@ function attachEventListeners() {
 
   // Eggs
   elements.hatch_btn?.addEventListener("click", hatchEgg);
+
+  // Battles
+  elements.battle_select_btn?.addEventListener("click", selectBattleCard);
+  elements.battle_attack_btn?.addEventListener("click", () => performAttack(false));
+  elements.battle_special_btn?.addEventListener("click", () => performAttack(true));
 }
 
 function refreshAll() {
@@ -1268,6 +1283,391 @@ function refreshEggLog() {
         `<div class="egg-log-item">${e.emoji} ${e.reward} <span style="color:var(--text-secondary);font-size:0.65rem">${e.rarity}</span></div>`
     )
     .join("");
+}
+
+// ===== Card Battle System =====
+const BATTLE_EMOJIS = ["🦖", "🦕", "🦏", "🐊", "🦅", "🐉", "🦎", "🦂", "🐍", "🐻", "🦁", "🐘"];
+
+const WILD_DINOS = [
+  { name: "Wild Raptor", emoji: "🦖", tier: 1 },
+  { name: "Cave Bear", emoji: "🐻", tier: 1 },
+  { name: "Giant Croc", emoji: "🐊", tier: 1 },
+  { name: "Wild Ptero", emoji: "🦅", tier: 2 },
+  { name: "Rock Scorpio", emoji: "🦂", tier: 2 },
+  { name: "Savage Rex", emoji: "🦖", tier: 2 },
+  { name: "Ice Mammoth", emoji: "🐘", tier: 3 },
+  { name: "Alpha Dragon", emoji: "🐉", tier: 3 },
+  { name: "Mega Raptor", emoji: "🦎", tier: 3 },
+  { name: "Titan Rex", emoji: "🦖", tier: 4 },
+  { name: "Ancient Serpent", emoji: "🐍", tier: 4 },
+  { name: "Sky Overlord", emoji: "🦅", tier: 4 },
+];
+
+// Generate stats for a card based on rarity
+function getCardStats(card) {
+  // Deterministic seed from card name
+  let seed = 0;
+  for (let i = 0; i < card.name.length; i++) seed += card.name.charCodeAt(i) * (i + 1);
+
+  const rarityMult = { Common: 1, Rare: 1.4, Epic: 1.8, Legendary: 2.5 };
+  const mult = rarityMult[card.rarity] || 1;
+
+  const base = (stat) => Math.floor((8 + ((seed * stat) % 12)) * mult);
+  return {
+    atk: base(7),
+    def: base(13),
+    spd: base(19),
+    maxHp: Math.floor(80 * mult + ((seed % 30) * mult)),
+  };
+}
+
+// Generate wild dino stats based on tier
+function getWildDinoStats(dino) {
+  const tierMult = [0, 1, 1.3, 1.7, 2.2];
+  const mult = tierMult[dino.tier] || 1;
+  const rand = () => Math.floor((10 + Math.random() * 10) * mult);
+  return {
+    atk: rand(),
+    def: rand(),
+    spd: rand(),
+    maxHp: Math.floor((90 + Math.random() * 30) * mult),
+  };
+}
+
+function getCardEmoji(card) {
+  // Pick a consistent emoji based on card name
+  let idx = 0;
+  for (let i = 0; i < card.name.length; i++) idx += card.name.charCodeAt(i);
+  return BATTLE_EMOJIS[idx % BATTLE_EMOJIS.length];
+}
+
+// Battle state
+let battleState = null;
+
+function initBattle() {
+  battleState = null;
+  refreshBattleUI();
+  refreshBattleRecord();
+}
+
+function selectBattleCard() {
+  if (state.cards.length === 0) {
+    addBattleLog("❌ No cards! Play games to earn some!", "");
+    return;
+  }
+
+  // Cycle through cards or pick random
+  const card = state.cards[Math.floor(Math.random() * state.cards.length)];
+  const stats = getCardStats(card);
+  const emoji = getCardEmoji(card);
+
+  // Pick a wild dino opponent scaled to player level
+  const maxTier = Math.min(Math.floor(state.level / 1.5) + 1, 4);
+  const eligible = WILD_DINOS.filter((d) => d.tier <= maxTier);
+  const wild = eligible[Math.floor(Math.random() * eligible.length)];
+  const wildStats = getWildDinoStats(wild);
+
+  battleState = {
+    player: {
+      name: card.name,
+      emoji,
+      rarity: card.rarity,
+      ...stats,
+      hp: stats.maxHp,
+      specialUsed: false,
+    },
+    enemy: {
+      name: wild.name,
+      emoji: wild.emoji,
+      tier: wild.tier,
+      ...wildStats,
+      hp: wildStats.maxHp,
+      specialUsed: false,
+    },
+    turn: 0,
+    active: true,
+    log: [],
+  };
+
+  playSound("click");
+  refreshBattleUI();
+  addBattleLog(`⚔️ ${card.name} vs ${wild.name}! FIGHT!`, "critical");
+
+  // Enable buttons
+  if (elements.battle_attack_btn) elements.battle_attack_btn.disabled = false;
+  if (elements.battle_special_btn) elements.battle_special_btn.disabled = false;
+}
+
+function performAttack(isSpecial) {
+  if (!battleState || !battleState.active) return;
+  battleState.turn++;
+
+  const p = battleState.player;
+  const e = battleState.enemy;
+
+  // Player attacks first if faster (or coin flip if equal)
+  const playerFirst = p.spd > e.spd || (p.spd === e.spd && Math.random() > 0.5);
+
+  if (playerFirst) {
+    doPlayerAttack(isSpecial);
+    if (battleState.active) doEnemyAttack();
+  } else {
+    doEnemyAttack();
+    if (battleState.active) doPlayerAttack(isSpecial);
+  }
+
+  refreshBattleUI();
+}
+
+function doPlayerAttack(isSpecial) {
+  const p = battleState.player;
+  const e = battleState.enemy;
+
+  let dmg;
+  let msg;
+
+  if (isSpecial && !p.specialUsed) {
+    p.specialUsed = true;
+    if (elements.battle_special_btn) elements.battle_special_btn.disabled = true;
+    // Special: 2× attack, ignores some defense
+    dmg = Math.max(1, Math.floor(p.atk * 2 - e.def * 0.3 + Math.random() * 5));
+    const crit = Math.random() < 0.3;
+    if (crit) {
+      dmg = Math.floor(dmg * 1.5);
+      msg = `💥 ${p.name} CRITICAL SPECIAL! ${dmg} dmg!`;
+      addBattleLog(msg, "critical");
+      shakeScreen();
+      triggerConfetti(10);
+    } else {
+      msg = `🌟 ${p.name} uses SPECIAL! ${dmg} dmg!`;
+      addBattleLog(msg, "player-hit");
+    }
+    playSound("combo");
+  } else {
+    // Normal attack
+    dmg = Math.max(1, Math.floor(p.atk - e.def * 0.5 + Math.random() * 6));
+    const crit = Math.random() < 0.15;
+    if (crit) {
+      dmg = Math.floor(dmg * 1.5);
+      msg = `💥 ${p.name} CRIT! ${dmg} dmg!`;
+      addBattleLog(msg, "critical");
+    } else {
+      msg = `⚡ ${p.name} attacks! ${dmg} dmg`;
+      addBattleLog(msg, "player-hit");
+    }
+    playSound("boost");
+  }
+
+  e.hp = Math.max(0, e.hp - dmg);
+
+  // Animate
+  const playerCard = document.getElementById("battle-player-card");
+  const enemyCard = document.getElementById("battle-enemy-card");
+  if (playerCard) {
+    playerCard.classList.remove("attacking");
+    void playerCard.offsetWidth;
+    playerCard.classList.add("attacking");
+    setTimeout(() => playerCard.classList.remove("attacking"), 400);
+  }
+  if (enemyCard && dmg > 0) {
+    setTimeout(() => {
+      enemyCard.classList.add("hit");
+      setTimeout(() => enemyCard.classList.remove("hit"), 300);
+    }, 200);
+  }
+
+  // Particles
+  if (enemyCard) {
+    const rect = enemyCard.getBoundingClientRect();
+    spawnParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 8, "#f87171");
+  }
+
+  if (e.hp <= 0) {
+    endBattle(true);
+  }
+}
+
+function doEnemyAttack() {
+  const p = battleState.player;
+  const e = battleState.enemy;
+
+  // Enemy uses special ~20% chance after turn 2
+  const useSpecial = !e.specialUsed && battleState.turn >= 2 && Math.random() < 0.2;
+  let dmg;
+  let msg;
+
+  if (useSpecial) {
+    e.specialUsed = true;
+    dmg = Math.max(1, Math.floor(e.atk * 1.8 - p.def * 0.3 + Math.random() * 4));
+    msg = `🔥 ${e.name} uses RAGE ATTACK! ${dmg} dmg!`;
+    addBattleLog(msg, "enemy-hit");
+    playSound("roar");
+  } else {
+    dmg = Math.max(1, Math.floor(e.atk - p.def * 0.5 + Math.random() * 5));
+    const crit = Math.random() < 0.12;
+    if (crit) {
+      dmg = Math.floor(dmg * 1.5);
+      msg = `💥 ${e.name} CRIT! ${dmg} dmg!`;
+      addBattleLog(msg, "critical");
+    } else {
+      msg = `🦴 ${e.name} attacks! ${dmg} dmg`;
+      addBattleLog(msg, "enemy-hit");
+    }
+    playSound("dig");
+  }
+
+  p.hp = Math.max(0, p.hp - dmg);
+
+  // Animate enemy attack
+  const enemyCard = document.getElementById("battle-enemy-card");
+  const playerCard = document.getElementById("battle-player-card");
+  if (enemyCard) {
+    enemyCard.classList.remove("attacking");
+    void enemyCard.offsetWidth;
+    enemyCard.classList.add("attacking");
+    setTimeout(() => enemyCard.classList.remove("attacking"), 400);
+  }
+  if (playerCard && dmg > 0) {
+    setTimeout(() => {
+      playerCard.classList.add("hit");
+      setTimeout(() => playerCard.classList.remove("hit"), 300);
+    }, 200);
+  }
+
+  if (p.hp <= 0) {
+    endBattle(false);
+  }
+}
+
+function endBattle(won) {
+  battleState.active = false;
+  if (elements.battle_attack_btn) elements.battle_attack_btn.disabled = true;
+  if (elements.battle_special_btn) elements.battle_special_btn.disabled = true;
+
+  // Track wins/losses
+  if (!state.battleWins) state.battleWins = 0;
+  if (!state.battleLosses) state.battleLosses = 0;
+  if (!state.battleStreak) state.battleStreak = 0;
+
+  if (won) {
+    state.battleWins++;
+    state.battleStreak++;
+    const tierBonus = (battleState.enemy.tier || 1) * 10;
+    addXP(30 + tierBonus, elements.battle_result);
+    addBattleLog(`🏆 YOU WIN! +${30 + tierBonus} XP!`, "victory");
+    triggerConfetti(40);
+    playVictoryFanfare();
+    shakeScreen();
+
+    // Rewards
+    if (state.battleStreak >= 3) awardEgg("rare");
+    else awardEgg("common");
+
+    if (state.battleWins >= 5) unlockCardIfNew("Battle Veteran", "Rare");
+    if (state.battleWins >= 15) unlockCardIfNew("Battle Master", "Epic");
+    if (state.battleStreak >= 5) unlockCardIfNew("Unstoppable!", "Legendary");
+
+    const defeatedCard = document.getElementById("battle-enemy-card");
+    if (defeatedCard) defeatedCard.classList.add("defeated");
+
+    // Show result
+    if (elements.battle_result) {
+      elements.battle_result.className = "battle-result win";
+      elements.battle_result.textContent = `🏆 Victory! ${battleState.player.name} wins in ${battleState.turn} turns!`;
+      elements.battle_result.classList.remove("hidden");
+    }
+  } else {
+    state.battleLosses++;
+    state.battleStreak = 0;
+    addXP(5, elements.battle_result);
+    addBattleLog(`💀 Defeated! Better luck next time!`, "defeat");
+    playSound("wrong");
+
+    const defeatedCard = document.getElementById("battle-player-card");
+    if (defeatedCard) defeatedCard.classList.add("defeated");
+
+    if (elements.battle_result) {
+      elements.battle_result.className = "battle-result lose";
+      elements.battle_result.textContent = `💀 Defeated by ${battleState.enemy.name}! Try again!`;
+      elements.battle_result.classList.remove("hidden");
+    }
+  }
+
+  saveState();
+  refreshBattleRecord();
+  refreshCollection();
+}
+
+function addBattleLog(text, className) {
+  if (!elements.battle_log) return;
+  const entry = document.createElement("div");
+  entry.className = `battle-log-entry ${className || ""}`;
+  entry.textContent = text;
+  elements.battle_log.appendChild(entry);
+  elements.battle_log.scrollTop = elements.battle_log.scrollHeight;
+}
+
+function renderStatBar(label, value, className) {
+  return `<div class="battle-stat">
+    <span class="battle-stat-label">${label}</span>
+    <span class="battle-stat-val ${className}">${value}</span>
+  </div>`;
+}
+
+function refreshBattleUI() {
+  if (!battleState) {
+    // Default state
+    if (elements.battle_player_emoji) elements.battle_player_emoji.textContent = "❓";
+    if (elements.battle_player_name) elements.battle_player_name.textContent = "Pick a card!";
+    if (elements.battle_player_stats) elements.battle_player_stats.innerHTML = "";
+    if (elements.battle_player_hp) elements.battle_player_hp.style.width = "100%";
+    if (elements.battle_player_hp_label) elements.battle_player_hp_label.textContent = "-- HP";
+    if (elements.battle_enemy_emoji) elements.battle_enemy_emoji.textContent = "❓";
+    if (elements.battle_enemy_name) elements.battle_enemy_name.textContent = "???";
+    if (elements.battle_enemy_stats) elements.battle_enemy_stats.innerHTML = "";
+    if (elements.battle_enemy_hp) elements.battle_enemy_hp.style.width = "100%";
+    if (elements.battle_enemy_hp_label) elements.battle_enemy_hp_label.textContent = "-- HP";
+    if (elements.battle_log) elements.battle_log.innerHTML = '<div class="battle-log-entry">Pick a card to start battling!</div>';
+    if (elements.battle_result) elements.battle_result.classList.add("hidden");
+    return;
+  }
+
+  const p = battleState.player;
+  const e = battleState.enemy;
+
+  // Player card
+  if (elements.battle_player_emoji) elements.battle_player_emoji.textContent = p.emoji;
+  if (elements.battle_player_name) elements.battle_player_name.textContent = p.name;
+  if (elements.battle_player_stats) {
+    elements.battle_player_stats.innerHTML =
+      renderStatBar("ATK", p.atk, "stat-atk") +
+      renderStatBar("DEF", p.def, "stat-def") +
+      renderStatBar("SPD", p.spd, "stat-spd");
+  }
+  const pHpPct = Math.max(0, (p.hp / p.maxHp) * 100);
+  if (elements.battle_player_hp) elements.battle_player_hp.style.width = `${pHpPct}%`;
+  if (elements.battle_player_hp_label) elements.battle_player_hp_label.textContent = `${p.hp} HP`;
+
+  // Enemy card
+  if (elements.battle_enemy_emoji) elements.battle_enemy_emoji.textContent = e.emoji;
+  if (elements.battle_enemy_name) elements.battle_enemy_name.textContent = e.name;
+  if (elements.battle_enemy_stats) {
+    elements.battle_enemy_stats.innerHTML =
+      renderStatBar("ATK", e.atk, "stat-atk") +
+      renderStatBar("DEF", e.def, "stat-def") +
+      renderStatBar("SPD", e.spd, "stat-spd");
+  }
+  const eHpPct = Math.max(0, (e.hp / e.maxHp) * 100);
+  if (elements.battle_enemy_hp) elements.battle_enemy_hp.style.width = `${eHpPct}%`;
+  if (elements.battle_enemy_hp_label) elements.battle_enemy_hp_label.textContent = `${e.hp} HP`;
+}
+
+function refreshBattleRecord() {
+  if (!elements.battle_record) return;
+  const w = state.battleWins || 0;
+  const l = state.battleLosses || 0;
+  const s = state.battleStreak || 0;
+  elements.battle_record.textContent = `⚔️ ${w}W / ${l}L • 🔥 Streak: ${s}`;
 }
 
 // ===== Collection =====

@@ -158,6 +158,58 @@
         <div id="card-list" class="cards-grid"></div>
       </section>
 
+      <!-- Card Battle Arena -->
+      <section class="panel glow-panel" id="battle-section">
+        <div class="panel-header">
+          <span class="panel-icon">⚔️</span>
+          <h2>Card Battle!</h2>
+        </div>
+        <p class="panel-desc">Pick a card & fight a wild dino!</p>
+        <div class="battle-arena" id="battle-arena">
+          <div class="battle-side player-side">
+            <div class="battle-label">YOUR CARD</div>
+            <div class="battle-card" id="battle-player-card">
+              <div class="battle-card-inner">
+                <div class="battle-card-emoji" id="battle-player-emoji">❓</div>
+                <div class="battle-card-name" id="battle-player-name">Select card</div>
+              </div>
+              <div class="battle-stats" id="battle-player-stats"></div>
+            </div>
+            <div class="battle-hp-bar-wrap">
+              <div class="battle-hp-bar">
+                <div class="battle-hp-fill player-hp" id="battle-player-hp" style="width:100%"></div>
+              </div>
+              <span class="battle-hp-label" id="battle-player-hp-label">100 HP</span>
+            </div>
+          </div>
+          <div class="battle-vs">⚔️</div>
+          <div class="battle-side enemy-side">
+            <div class="battle-label">WILD DINO</div>
+            <div class="battle-card" id="battle-enemy-card">
+              <div class="battle-card-inner">
+                <div class="battle-card-emoji" id="battle-enemy-emoji">🦖</div>
+                <div class="battle-card-name" id="battle-enemy-name">???</div>
+              </div>
+              <div class="battle-stats" id="battle-enemy-stats"></div>
+            </div>
+            <div class="battle-hp-bar-wrap">
+              <div class="battle-hp-bar">
+                <div class="battle-hp-fill enemy-hp" id="battle-enemy-hp" style="width:100%"></div>
+              </div>
+              <span class="battle-hp-label" id="battle-enemy-hp-label">100 HP</span>
+            </div>
+          </div>
+        </div>
+        <div id="battle-log" class="battle-log"></div>
+        <div class="battle-controls">
+          <button id="battle-select-btn" class="btn-primary btn-lg">🃏 Pick Card</button>
+          <button id="battle-attack-btn" class="btn-boost btn-lg" disabled>⚡ Attack!</button>
+          <button id="battle-special-btn" class="btn-secondary btn-lg" disabled>🌟 Special!</button>
+        </div>
+        <div id="battle-result" class="battle-result hidden"></div>
+        <p id="battle-record" class="status-text"></p>
+      </section>
+
       <!-- Dino Cup -->
       <section class="panel glow-panel" id="cup-section">
         <div class="panel-header">
