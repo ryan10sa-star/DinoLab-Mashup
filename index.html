@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" />
   <title>DinoLab Mashup</title>
   <link rel="manifest" href="manifest.webmanifest" />
@@ -10,31 +10,45 @@
 </head>
 <body>
   <div id="confetti-container"></div>
+  <div id="particle-container"></div>
+  <div id="float-container"></div>
   <button id="sound-toggle" class="sound-toggle" title="Toggle Sound">🔊</button>
-  
-  <header class="app-header">
+
+  <header class="app-header" id="app-header">
     <div class="header-content">
-      <h1>DinoLab Mashup</h1>
-      <p>Race, hunt fossils, and build your ultimate prehistoric crew!</p>
+      <h1>🦖 DinoLab Mashup 🦕</h1>
+      <div class="xp-bar-wrap">
+        <div class="xp-level-badge" id="level-badge">🥚 Egg</div>
+        <div class="xp-bar">
+          <div class="xp-fill" id="xp-fill" style="width:0%"></div>
+        </div>
+        <div class="xp-label" id="xp-label">0 / 50 XP</div>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Gallery -->
-  <section class="hero-gallery" id="hero-gallery">
-    <h2>Prehistoric Gallery</h2>
-    <div class="gallery-scroll" id="gallery-scroll"></div>
-  </section>
+  <!-- Tab Navigation -->
+  <nav class="tab-bar" id="tab-bar">
+    <button class="tab active" data-tab="explore">🔬 Explore</button>
+    <button class="tab" data-tab="games">🎮 Games</button>
+    <button class="tab" data-tab="quiz">🧠 Quiz</button>
+    <button class="tab" data-tab="collection">🃏 Cards</button>
+    <button class="tab" data-tab="rewards">🥚 Eggs</button>
+  </nav>
 
-  <main class="layout">
-    <!-- Dino Discovery Gallery -->
-    <section class="panel glow-panel" id="discovery-section">
-      <div class="panel-header">
-        <span class="panel-icon">🔬</span>
-        <h2>Dino Discovery Gallery</h2>
-      </div>
-      <p class="panel-desc">Tap any image to learn amazing facts!</p>
-      <div class="discovery-grid" id="discovery-grid"></div>
-    </section>
+  <main class="layout" id="app-main">
+
+    <!-- ===== EXPLORE TAB ===== -->
+    <div class="tab-content active" id="tab-explore">
+      <section class="panel glow-panel" id="discovery-section">
+        <div class="panel-header">
+          <span class="panel-icon">🔬</span>
+          <h2>Dino Discovery</h2>
+        </div>
+        <p class="panel-desc">Tap to learn amazing dino facts!</p>
+        <div class="discovery-grid" id="discovery-grid"></div>
+      </section>
+    </div>
 
     <!-- Featured Dino Modal -->
     <div id="dino-modal" class="dino-modal hidden">
@@ -45,125 +59,194 @@
           <h3 id="modal-title"></h3>
           <p id="modal-period" class="modal-period"></p>
           <div id="modal-facts" class="modal-facts"></div>
-          <button id="modal-next" class="btn-primary">🎲 Discover Another!</button>
+          <button id="modal-next" class="btn-primary btn-lg">🎲 Discover Another!</button>
         </div>
       </div>
     </div>
 
-    <!-- Fossil Hunt -->
-    <section class="panel glow-panel" id="fossil-section">
-      <div class="panel-header">
-        <span class="panel-icon">🦴</span>
-        <h2>Fossil Hunt 2.0</h2>
-      </div>
-      <p class="panel-desc">Dig to find all fossils and unlock a special card!</p>
-      <div class="row">
-        <label>Set
+    <!-- ===== GAMES TAB ===== -->
+    <div class="tab-content" id="tab-games">
+
+      <!-- Fossil Hunt -->
+      <section class="panel glow-panel" id="fossil-section">
+        <div class="panel-header">
+          <span class="panel-icon">🦴</span>
+          <h2>Fossil Hunt</h2>
+        </div>
+        <div class="fossil-top-bar">
+          <div class="fossil-timer" id="fossil-timer">⏱️ 30s</div>
+          <div class="fossil-combo" id="fossil-combo"></div>
           <select id="fossil-set"></select>
-        </label>
-        <button id="new-hunt-btn" class="btn-secondary">🔄 New Hunt</button>
-      </div>
-      <div id="dig-grid" class="dig-grid"></div>
-      <p id="fossil-status" class="status-text"></p>
-    </section>
-
-    <!-- Time Trial Racing -->
-    <section class="panel glow-panel" id="race-section">
-      <div class="panel-header">
-        <span class="panel-icon">🏁</span>
-        <h2>Time Trial Racing</h2>
-      </div>
-      <p class="panel-desc">Mash Boost for 10 seconds!</p>
-      <div class="race-track" id="race-track">
-        <div class="racer" id="racer">🦖</div>
-        <div class="finish-line">🏆</div>
-      </div>
-      <div class="row actions">
-        <button id="start-race-btn" class="btn-primary">🚀 Start</button>
-        <button id="boost-btn" class="btn-boost" disabled>⚡ BOOST!</button>
-      </div>
-      <p id="race-status" class="status-text">Best: 0m</p>
-      <p id="race-timer" class="timer-text"></p>
-    </section>
-
-    <!-- Dino Cards Collection -->
-    <section class="panel glow-panel" id="collection-section">
-      <div class="panel-header">
-        <span class="panel-icon">🃏</span>
-        <h2>Dino Cards</h2>
-      </div>
-      <p id="collection-summary" class="status-text"></p>
-      <div id="card-list" class="cards-grid"></div>
-    </section>
-
-    <!-- Weekly Dino Cup -->
-    <section class="panel glow-panel" id="cup-section">
-      <div class="panel-header">
-        <span class="panel-icon">🏆</span>
-        <h2>Weekly Dino Cup</h2>
-      </div>
-      <ul id="cup-list" class="challenge-list"></ul>
-      <p id="cup-status" class="status-text"></p>
-    </section>
-
-    <!-- Victory Poster -->
-    <section class="panel glow-panel" id="poster-section">
-      <div class="panel-header">
-        <span class="panel-icon">🎨</span>
-        <h2>Victory Poster</h2>
-      </div>
-      <div class="row actions">
-        <input id="poster-player" type="text" placeholder="Your name..." />
-        <input id="poster-score" type="number" min="0" value="100" style="width:80px" />
-        <button id="make-poster-btn" class="btn-primary">✨ Make</button>
-        <a id="download-poster" class="btn-secondary" download="dino-victory.png">📥</a>
-      </div>
-      <canvas id="poster-canvas" width="960" height="540"></canvas>
-    </section>
-
-    <!-- Daily Quest -->
-    <section class="panel glow-panel" id="quest-section">
-      <div class="panel-header">
-        <span class="panel-icon">⭐</span>
-        <h2>Daily Quest</h2>
-      </div>
-      <div class="quest-card">
-        <p id="daily-quest" class="quest-text"></p>
-        <div class="streak-display">
-          <span class="streak-icon">🔥</span>
-          <span id="streak-status" class="streak-count">0</span>
         </div>
-      </div>
-      <button id="complete-quest-btn" class="btn-primary">✅ Done!</button>
-    </section>
+        <div id="dig-grid" class="dig-grid"></div>
+        <p id="fossil-status" class="status-text"></p>
+        <button id="new-hunt-btn" class="btn-primary btn-lg btn-full">🔄 New Hunt!</button>
+      </section>
 
-    <!-- Parent Tools -->
-    <section class="panel parent-panel" id="parent-section">
-      <details>
-        <summary class="panel-header clickable">
-          <span class="panel-icon">🔒</span>
-          <h2>Parent Tools</h2>
-        </summary>
-        <div class="parent-content">
-          <div class="row actions">
-            <input id="parent-pin" type="password" maxlength="6" placeholder="PIN" />
-            <button id="set-pin-btn" class="btn-secondary">Set</button>
-            <button id="toggle-lock-btn" class="btn-secondary">Lock</button>
-          </div>
-          <div class="row actions">
-            <input id="unlock-pin" type="password" maxlength="6" placeholder="Enter PIN" />
-            <button id="unlock-btn" class="btn-secondary">Unlock</button>
-          </div>
-          <p id="parent-status" class="status-text"></p>
+      <!-- Time Trial Racing -->
+      <section class="panel glow-panel" id="race-section">
+        <div class="panel-header">
+          <span class="panel-icon">🏁</span>
+          <h2>Dino Race!</h2>
         </div>
-      </details>
-    </section>
+        <div class="race-hud">
+          <span id="race-timer" class="race-timer-display">⏱️ 10s</span>
+          <span id="race-status" class="race-status-display">Tap BOOST!</span>
+        </div>
+        <div class="race-track" id="race-track">
+          <div class="race-lane lane-top">
+            <div class="racer" id="racer">🦖</div>
+          </div>
+          <div class="race-lane lane-bot">
+            <div class="ai-racer" id="ai-racer">🦕</div>
+          </div>
+          <div class="finish-line">🏆</div>
+          <div id="obstacle-container"></div>
+        </div>
+        <div class="speed-meter-wrap">
+          <div class="speed-meter" id="speed-meter"></div>
+          <span class="speed-label" id="speed-label">0 mph</span>
+        </div>
+        <button id="boost-btn" class="btn-boost btn-lg btn-full">⚡ BOOST!</button>
+      </section>
+
+      <!-- Daily Quest -->
+      <section class="panel glow-panel" id="quest-section">
+        <div class="panel-header">
+          <span class="panel-icon">⭐</span>
+          <h2>Daily Quest</h2>
+        </div>
+        <div class="quest-card">
+          <p id="daily-quest" class="quest-text"></p>
+          <div class="streak-display">
+            <span class="streak-icon">🔥</span>
+            <span id="streak-status" class="streak-count">0</span>
+          </div>
+        </div>
+        <button id="complete-quest-btn" class="btn-primary btn-lg btn-full">✅ Done!</button>
+      </section>
+    </div>
+
+    <!-- ===== QUIZ TAB ===== -->
+    <div class="tab-content" id="tab-quiz">
+      <section class="panel glow-panel" id="quiz-section">
+        <div class="panel-header">
+          <span class="panel-icon">🧠</span>
+          <h2>Dino Quiz!</h2>
+        </div>
+        <div class="quiz-score-bar">
+          <span id="quiz-streak-display">🔥 0</span>
+          <span id="quiz-score-display">⭐ 0</span>
+        </div>
+        <div id="quiz-area" class="quiz-area">
+          <div id="quiz-question" class="quiz-question">Tap Start to begin!</div>
+          <div id="quiz-answers" class="quiz-answers"></div>
+          <div id="quiz-feedback" class="quiz-feedback hidden"></div>
+        </div>
+        <button id="start-quiz-btn" class="btn-primary btn-lg btn-full">🚀 Start Quiz!</button>
+      </section>
+    </div>
+
+    <!-- ===== COLLECTION TAB ===== -->
+    <div class="tab-content" id="tab-collection">
+      <section class="panel glow-panel" id="collection-section">
+        <div class="panel-header">
+          <span class="panel-icon">🃏</span>
+          <h2>Dino Cards</h2>
+        </div>
+        <p id="collection-summary" class="status-text"></p>
+        <div id="card-list" class="cards-grid"></div>
+      </section>
+
+      <!-- Dino Cup -->
+      <section class="panel glow-panel" id="cup-section">
+        <div class="panel-header">
+          <span class="panel-icon">🏆</span>
+          <h2>Dino Cup</h2>
+        </div>
+        <div class="cup-progress-bar-wrap">
+          <div class="cup-progress-bar">
+            <div class="cup-fill" id="cup-fill" style="width:0%"></div>
+          </div>
+        </div>
+        <ul id="cup-list" class="challenge-list"></ul>
+        <p id="cup-status" class="status-text"></p>
+      </section>
+
+      <!-- Victory Poster -->
+      <section class="panel glow-panel" id="poster-section">
+        <div class="panel-header">
+          <span class="panel-icon">🎨</span>
+          <h2>Victory Poster</h2>
+        </div>
+        <div class="poster-controls">
+          <input id="poster-player" type="text" placeholder="Your name..." class="poster-input" />
+          <button id="make-poster-btn" class="btn-primary btn-lg">✨ Create!</button>
+        </div>
+        <canvas id="poster-canvas" width="960" height="540"></canvas>
+        <a id="download-poster" class="btn-secondary btn-lg btn-full" download="dino-victory.png">📥 Download</a>
+      </section>
+    </div>
+
+    <!-- ===== EGGS TAB ===== -->
+    <div class="tab-content" id="tab-rewards">
+      <section class="panel glow-panel" id="egg-section">
+        <div class="panel-header">
+          <span class="panel-icon">🥚</span>
+          <h2>Mystery Eggs</h2>
+        </div>
+        <p class="panel-desc">Earn eggs by playing!</p>
+        <div class="egg-inventory" id="egg-inventory">
+          <div class="egg-slot" data-rarity="common">
+            <span class="egg-emoji">🥚</span>
+            <span class="egg-count" id="egg-common-count">0</span>
+            <span class="egg-label">Common</span>
+          </div>
+          <div class="egg-slot" data-rarity="rare">
+            <span class="egg-emoji">🪺</span>
+            <span class="egg-count" id="egg-rare-count">0</span>
+            <span class="egg-label">Rare</span>
+          </div>
+          <div class="egg-slot" data-rarity="legendary">
+            <span class="egg-emoji">✨🥚✨</span>
+            <span class="egg-count" id="egg-legendary-count">0</span>
+            <span class="egg-label">Legendary</span>
+          </div>
+        </div>
+        <button id="hatch-btn" class="btn-primary btn-lg btn-full">🐣 Hatch an Egg!</button>
+        <div id="hatch-result" class="hatch-result hidden"></div>
+        <div class="egg-log" id="egg-log"></div>
+      </section>
+    </div>
+
   </main>
+
+  <!-- Parent Tools -->
+  <section class="panel parent-panel" id="parent-section">
+    <details>
+      <summary class="panel-header clickable">
+        <span class="panel-icon">🔒</span>
+        <h2>Parent Tools</h2>
+      </summary>
+      <div class="parent-content">
+        <div class="row actions">
+          <input id="parent-pin" type="password" maxlength="6" placeholder="PIN" />
+          <button id="set-pin-btn" class="btn-secondary">Set</button>
+          <button id="toggle-lock-btn" class="btn-secondary">Lock</button>
+        </div>
+        <div class="row actions">
+          <input id="unlock-pin" type="password" maxlength="6" placeholder="Enter PIN" />
+          <button id="unlock-btn" class="btn-secondary">Unlock</button>
+        </div>
+        <p id="parent-status" class="status-text"></p>
+      </div>
+    </details>
+  </section>
 
   <footer class="app-footer">
     <p>Made with 🦕 for young paleontologists</p>
   </footer>
 
-  <script src="app.js" type="module"></script>
+  <script src="app.js"></script>
 </body>
 </html>
