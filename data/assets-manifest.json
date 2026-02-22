@@ -1,0 +1,186 @@
+{
+  "version": 2,
+  "updatedAt": "2026-02-22",
+  "policy": {
+    "requiredFields": [
+      "id",
+      "category",
+      "title",
+      "subject",
+      "creator",
+      "sourceUrl",
+      "license",
+      "status",
+      "formats",
+      "altText"
+    ],
+    "notes": "Images pulled from Wikimedia Commons; verify attribution display in production UI."
+  },
+  "assets": [
+    {
+      "id": "wmc-dinosaur-egg-museum-xixia-dinosaur-park-fossil-bird-confuciusomis-sanctus-jpg",
+      "category": "fossil-photo",
+      "title": "Dinosaur Egg Museum, Xixia Dinosaur Park- Fossil Bird, Confuciusomis sanctus.jpg",
+      "subject": "Prehistoric specimen",
+      "creator": "Gary Todd",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dinosaur_Egg_Museum,_Xixia_Dinosaur_Park-_Fossil_Bird,_Confuciusomis_sanctus.jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-egg-museum-xixia-dinosaur-park-fossil-bird-confuciusomis-sanctus-jpg.jpg",
+        "web": "assets/web/dinosaur-egg-museum-xixia-dinosaur-park-fossil-bird-confuciusomis-sanctus-jpg.jpg"
+      },
+      "altText": "Xixia, southern Henan Province. Complete indexed photo collection at WorldHistoryPics.com."
+    },
+    {
+      "id": "wmc-dinosaur-egg-museum-xixia-dinosaur-park-fossil-fish-lycoptera-jpg",
+      "category": "fossil-photo",
+      "title": "Dinosaur Egg Museum, Xixia Dinosaur Park- Fossil Fish, Lycoptera.jpg",
+      "subject": "Prehistoric specimen",
+      "creator": "Gary Todd",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dinosaur_Egg_Museum,_Xixia_Dinosaur_Park-_Fossil_Fish,_Lycoptera.jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-egg-museum-xixia-dinosaur-park-fossil-fish-lycoptera-jpg.jpg",
+        "web": "assets/web/dinosaur-egg-museum-xixia-dinosaur-park-fossil-fish-lycoptera-jpg.jpg"
+      },
+      "altText": "Xixia, southern Henan Province. Complete indexed photo collection at WorldHistoryPics.com."
+    },
+    {
+      "id": "wmc-dinosaur-egg-museum-xixia-dinosaur-park-fossil-fish-peipiaosteus-sp-jpg",
+      "category": "fossil-photo",
+      "title": "Dinosaur Egg Museum, Xixia Dinosaur Park- Fossil Fish, Peipiaosteus sp.jpg",
+      "subject": "Prehistoric specimen",
+      "creator": "Gary Todd",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dinosaur_Egg_Museum,_Xixia_Dinosaur_Park-_Fossil_Fish,_Peipiaosteus_sp.jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-egg-museum-xixia-dinosaur-park-fossil-fish-peipiaosteus-sp-jpg.jpg",
+        "web": "assets/web/dinosaur-egg-museum-xixia-dinosaur-park-fossil-fish-peipiaosteus-sp-jpg.jpg"
+      },
+      "altText": "Xixia, southern Henan Province. Complete indexed photo collection at WorldHistoryPics.com."
+    },
+    {
+      "id": "wmc-glendive-entrance-jpg",
+      "category": "fossil-photo",
+      "title": "Glendive entrance.JPG",
+      "subject": "Prehistoric specimen",
+      "creator": "Ian Juby (http://creationwiki.org/User:Ianjuby)",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glendive_entrance.JPG",
+      "license": "Public domain",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/glendive-entrance-jpg.jpg",
+        "web": "assets/web/glendive-entrance-jpg.jpg"
+      },
+      "altText": "The entrance to the Glendive Dinosaur and Fossil Museum."
+    },
+    {
+      "id": "wmc-chasmosaurus-belli-rtm-01-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "Chasmosaurus belli RTM 01.jpg",
+      "subject": "Prehistoric specimen",
+      "creator": "ceasol from Edmonton, Canada",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chasmosaurus_belli_RTM_01.jpg",
+      "license": "CC BY-SA 2.0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/chasmosaurus-belli-rtm-01-jpg.jpg",
+        "web": "assets/web/chasmosaurus-belli-rtm-01-jpg.jpg"
+      },
+      "altText": "Chasmosaurus belli ROM 843, Royal Tyrrell Museum of Paleontology. Late Cretaceous 75-74.5 millions years ago. Found at Dinosaur Provincial P"
+    },
+    {
+      "id": "wmc-saurornitholestes-mor1-jpg",
+      "category": "fossil-photo",
+      "title": "Saurornitholestes MOR1.jpg",
+      "subject": "Prehistoric specimen",
+      "creator": "Dinoguy2",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saurornitholestes_MOR1.jpg",
+      "license": "CC BY-SA 2.5",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/saurornitholestes-mor1-jpg.jpg",
+        "web": "assets/web/saurornitholestes-mor1-jpg.jpg"
+      },
+      "altText": "Skeleton of the dromaeosaurid dinosaur Saurornitholestes langstoni at the Museum of the Rockies in Montana."
+    },
+    {
+      "id": "wmc-trilobite-ordovicien-8127-jpg",
+      "category": "prehistoric-animal",
+      "title": "Trilobite Ordovicien 8127.jpg",
+      "subject": "Trilobite",
+      "creator": "Vassil",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trilobite_Ordovicien_8127.jpg",
+      "license": "CC BY-SA 3.0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/trilobite-ordovicien-8127-jpg.jpg",
+        "web": "assets/web/trilobite-ordovicien-8127-jpg.jpg"
+      },
+      "altText": "Paraceraurus (syn=Cheirurus), trilobite, Ordovicien moyen, proenance: Volchow River, Russie."
+    },
+    {
+      "id": "wmc-smilodon-and-homotherium-jpg",
+      "category": "fossil-photo",
+      "title": "Smilodon and Homotherium.jpg",
+      "subject": "Smilodon",
+      "creator": "Mauricio Anton",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Smilodon_and_Homotherium.jpg",
+      "license": "CC BY 4.0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/smilodon-and-homotherium-jpg.jpg",
+        "web": "assets/web/smilodon-and-homotherium-jpg.jpg"
+      },
+      "altText": "Skeletons (top) and life restorations (bottom) of Smilodon (left) and Homotherium (right)"
+    },
+    {
+      "id": "wmc-size-comparison-of-largest-snakes-jpg",
+      "category": "fossil-photo",
+      "title": "Size comparison of largest snakes.jpg",
+      "subject": "Prehistoric specimen",
+      "creator": "Ansh Saxena 7163",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Size_comparison_of_largest_snakes.jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/size-comparison-of-largest-snakes-jpg.jpg",
+        "web": "assets/web/size-comparison-of-largest-snakes-jpg.jpg"
+      },
+      "altText": "Reupload of the original image by Steveoc 86 and Oryctolagus XL with the addition of the fossil giant sea snake Vasuki indicus, potentially "
+    },
+    {
+      "id": "wmc-stamp-of-indonesia-1989-colnect-256587-skull-of-sambungmacan-1-jpeg",
+      "category": "dinosaur-reconstruction",
+      "title": "Stamp of Indonesia - 1989 - Colnect 256587 - Skull of “Sambungmacan 1”.jpeg",
+      "subject": "Prehistoric specimen",
+      "creator": "Post of Indonesia",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stamp_of_Indonesia_-_1989_-_Colnect_256587_-_Skull_of_%E2%80%9CSambungmacan_1%E2%80%9D.jpeg",
+      "license": "Public domain",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/stamp-of-indonesia-1989-colnect-256587-skull-of-sambungmacan-1-jpeg.jpg",
+        "web": "assets/web/stamp-of-indonesia-1989-colnect-256587-skull-of-sambungmacan-1-jpeg.jpg"
+      },
+      "altText": "Stamp"
+    },
+    {
+      "id": "wmc-therizinosaurus-ungual-morphology-png",
+      "category": "dinosaur-reconstruction",
+      "title": "Therizinosaurus ungual morphology.png",
+      "subject": "Prehistoric specimen",
+      "creator": "Yoshitsugu Kobayashi, Ryuji Takasaki, Anthony R. Fiorillo, Tsogtbaatar Chinzorig & Yoshinori Hikida",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Therizinosaurus_ungual_morphology.png",
+      "license": "CC BY 4.0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/therizinosaurus-ungual-morphology-png.png",
+        "web": "assets/web/therizinosaurus-ungual-morphology-png.png"
+      },
+      "altText": "Photo of the proximoventral end of Therizinosaurus ungual (MPC-D 100/15) in oblique view."
+    }
+  ]
+}

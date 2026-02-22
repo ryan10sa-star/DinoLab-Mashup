@@ -1,0 +1,10 @@
+{
+  "name": "DinoLab Mashup",
+  "short_name": "DinoLab",
+  "description": "Kid-friendly dinosaur lab, fossil hunt, and racing PWA",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#1f2937",
+  "icons": []
+}

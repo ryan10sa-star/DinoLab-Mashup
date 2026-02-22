@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>DinoLab Mashup</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="confetti-container"></div>
+  
+  <header class="app-header">
+    <div class="header-content">
+      <h1>DinoLab Mashup</h1>
+      <p>Race, hunt fossils, and build your ultimate prehistoric crew!</p>
+    </div>
+  </header>
+
+  <!-- Hero Gallery -->
+  <section class="hero-gallery" id="hero-gallery">
+    <h2>Prehistoric Gallery</h2>
+    <div class="gallery-scroll" id="gallery-scroll"></div>
+  </section>
+
+  <main class="layout">
+    <!-- Build-a-Saurus Lab -->
+    <section class="panel glow-panel" id="lab-section">
+      <div class="panel-header">
+        <span class="panel-icon">🦕</span>
+        <h2>Build-a-Saurus Lab</h2>
+      </div>
+      <div class="dino-preview-area" id="dino-preview-area">
+        <img id="dino-preview-img" src="" alt="Your custom dino" class="preview-img hidden" />
+        <div class="preview-placeholder" id="preview-placeholder">Create your dino!</div>
+      </div>
+      <div class="grid-2">
+        <label>Head
+          <select id="head-part">
+            <option value="Horned">🦎 Horned</option>
+            <option value="Crested">🐉 Crested</option>
+            <option value="Spiky">🦔 Spiky</option>
+            <option value="Beaked">🦜 Beaked</option>
+          </select>
+        </label>
+        <label>Tail
+          <select id="tail-part">
+            <option value="Club">🔨 Club</option>
+            <option value="Whip">〰️ Whip</option>
+            <option value="Feathered">🪶 Feathered</option>
+            <option value="Plated">🛡️ Plated</option>
+          </select>
+        </label>
+        <label>Skin
+          <select id="skin-part">
+            <option value="Forest">🌲 Forest</option>
+            <option value="Volcanic">🌋 Volcanic</option>
+            <option value="Arctic">❄️ Arctic</option>
+            <option value="Desert">🏜️ Desert</option>
+          </select>
+        </label>
+        <label>Roar Power <span id="roar-value" class="stat-badge">5</span>
+          <input id="roar-range" type="range" min="1" max="10" value="5" />
+        </label>
+        <label>Speed <span id="speed-value" class="stat-badge">5</span>
+          <input id="speed-range" type="range" min="1" max="10" value="5" />
+        </label>
+        <label>Armor <span id="armor-value" class="stat-badge">5</span>
+          <input id="armor-range" type="range" min="1" max="10" value="5" />
+        </label>
+      </div>
+      <div class="row actions">
+        <button id="random-name-btn" class="btn-secondary">🎲 Random</button>
+        <input id="dino-name" type="text" placeholder="Name your dino..." class="name-input" />
+        <button id="save-dino-btn" class="btn-primary pulse-btn">💾 Save</button>
+      </div>
+      <p id="lab-preview" class="preview-text"></p>
+      <div class="saved-dinos-grid" id="saved-dinos"></div>
+    </section>
+
+    <!-- Fossil Hunt -->
+    <section class="panel glow-panel" id="fossil-section">
+      <div class="panel-header">
+        <span class="panel-icon">🦴</span>
+        <h2>Fossil Hunt 2.0</h2>
+      </div>
+      <p class="panel-desc">Dig to find all fossils and unlock a special card!</p>
+      <div class="row">
+        <label>Set
+          <select id="fossil-set"></select>
+        </label>
+        <button id="new-hunt-btn" class="btn-secondary">🔄 New Hunt</button>
+      </div>
+      <div id="dig-grid" class="dig-grid"></div>
+      <p id="fossil-status" class="status-text"></p>
+    </section>
+
+    <!-- Time Trial Racing -->
+    <section class="panel glow-panel" id="race-section">
+      <div class="panel-header">
+        <span class="panel-icon">🏁</span>
+        <h2>Time Trial Racing</h2>
+      </div>
+      <p class="panel-desc">Mash Boost for 10 seconds!</p>
+      <div class="race-track" id="race-track">
+        <div class="racer" id="racer">🦖</div>
+        <div class="finish-line">🏆</div>
+      </div>
+      <div class="row actions">
+        <button id="start-race-btn" class="btn-primary">🚀 Start</button>
+        <button id="boost-btn" class="btn-boost" disabled>⚡ BOOST!</button>
+      </div>
+      <p id="race-status" class="status-text">Best: 0m</p>
+      <p id="race-timer" class="timer-text"></p>
+    </section>
+
+    <!-- Dino Cards Collection -->
+    <section class="panel glow-panel" id="collection-section">
+      <div class="panel-header">
+        <span class="panel-icon">🃏</span>
+        <h2>Dino Cards</h2>
+      </div>
+      <p id="collection-summary" class="status-text"></p>
+      <div id="card-list" class="cards-grid"></div>
+    </section>
+
+    <!-- Weekly Dino Cup -->
+    <section class="panel glow-panel" id="cup-section">
+      <div class="panel-header">
+        <span class="panel-icon">🏆</span>
+        <h2>Weekly Dino Cup</h2>
+      </div>
+      <ul id="cup-list" class="challenge-list"></ul>
+      <p id="cup-status" class="status-text"></p>
+    </section>
+
+    <!-- Victory Poster -->
+    <section class="panel glow-panel" id="poster-section">
+      <div class="panel-header">
+        <span class="panel-icon">🎨</span>
+        <h2>Victory Poster</h2>
+      </div>
+      <div class="row actions">
+        <input id="poster-player" type="text" placeholder="Your name..." />
+        <input id="poster-score" type="number" min="0" value="100" style="width:80px" />
+        <button id="make-poster-btn" class="btn-primary">✨ Make</button>
+        <a id="download-poster" class="btn-secondary" download="dino-victory.png">📥</a>
+      </div>
+      <canvas id="poster-canvas" width="960" height="540"></canvas>
+    </section>
+
+    <!-- Daily Quest -->
+    <section class="panel glow-panel" id="quest-section">
+      <div class="panel-header">
+        <span class="panel-icon">⭐</span>
+        <h2>Daily Quest</h2>
+      </div>
+      <div class="quest-card">
+        <p id="daily-quest" class="quest-text"></p>
+        <div class="streak-display">
+          <span class="streak-icon">🔥</span>
+          <span id="streak-status" class="streak-count">0</span>
+        </div>
+      </div>
+      <button id="complete-quest-btn" class="btn-primary">✅ Done!</button>
+    </section>
+
+    <!-- Parent Tools -->
+    <section class="panel parent-panel" id="parent-section">
+      <details>
+        <summary class="panel-header clickable">
+          <span class="panel-icon">🔒</span>
+          <h2>Parent Tools</h2>
+        </summary>
+        <div class="parent-content">
+          <div class="row actions">
+            <input id="parent-pin" type="password" maxlength="6" placeholder="PIN" />
+            <button id="set-pin-btn" class="btn-secondary">Set</button>
+            <button id="toggle-lock-btn" class="btn-secondary">Lock</button>
+          </div>
+          <div class="row actions">
+            <input id="unlock-pin" type="password" maxlength="6" placeholder="Enter PIN" />
+            <button id="unlock-btn" class="btn-secondary">Unlock</button>
+          </div>
+          <p id="parent-status" class="status-text"></p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Made with 🦕 for young paleontologists</p>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
