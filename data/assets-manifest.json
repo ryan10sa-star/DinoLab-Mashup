@@ -63,21 +63,6 @@
       "altText": "Xixia, southern Henan Province. Complete indexed photo collection at WorldHistoryPics.com."
     },
     {
-      "id": "wmc-glendive-entrance-jpg",
-      "category": "fossil-photo",
-      "title": "Glendive entrance.JPG",
-      "subject": "Prehistoric specimen",
-      "creator": "Ian Juby (http://creationwiki.org/User:Ianjuby)",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glendive_entrance.JPG",
-      "license": "Public domain",
-      "status": "ready",
-      "formats": {
-        "master": "assets/master/glendive-entrance-jpg.jpg",
-        "web": "assets/web/glendive-entrance-jpg.jpg"
-      },
-      "altText": "The entrance to the Glendive Dinosaur and Fossil Museum."
-    },
-    {
       "id": "wmc-chasmosaurus-belli-rtm-01-jpg",
       "category": "dinosaur-reconstruction",
       "title": "Chasmosaurus belli RTM 01.jpg",
@@ -138,36 +123,6 @@
       "altText": "Skeletons (top) and life restorations (bottom) of Smilodon (left) and Homotherium (right)"
     },
     {
-      "id": "wmc-size-comparison-of-largest-snakes-jpg",
-      "category": "fossil-photo",
-      "title": "Size comparison of largest snakes.jpg",
-      "subject": "Prehistoric specimen",
-      "creator": "Ansh Saxena 7163",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Size_comparison_of_largest_snakes.jpg",
-      "license": "CC0",
-      "status": "ready",
-      "formats": {
-        "master": "assets/master/size-comparison-of-largest-snakes-jpg.jpg",
-        "web": "assets/web/size-comparison-of-largest-snakes-jpg.jpg"
-      },
-      "altText": "Reupload of the original image by Steveoc 86 and Oryctolagus XL with the addition of the fossil giant sea snake Vasuki indicus, potentially "
-    },
-    {
-      "id": "wmc-stamp-of-indonesia-1989-colnect-256587-skull-of-sambungmacan-1-jpeg",
-      "category": "dinosaur-reconstruction",
-      "title": "Stamp of Indonesia - 1989 - Colnect 256587 - Skull of “Sambungmacan 1”.jpeg",
-      "subject": "Prehistoric specimen",
-      "creator": "Post of Indonesia",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stamp_of_Indonesia_-_1989_-_Colnect_256587_-_Skull_of_%E2%80%9CSambungmacan_1%E2%80%9D.jpeg",
-      "license": "Public domain",
-      "status": "ready",
-      "formats": {
-        "master": "assets/master/stamp-of-indonesia-1989-colnect-256587-skull-of-sambungmacan-1-jpeg.jpg",
-        "web": "assets/web/stamp-of-indonesia-1989-colnect-256587-skull-of-sambungmacan-1-jpeg.jpg"
-      },
-      "altText": "Stamp"
-    },
-    {
       "id": "wmc-therizinosaurus-ungual-morphology-png",
       "category": "dinosaur-reconstruction",
       "title": "Therizinosaurus ungual morphology.png",
@@ -181,6 +136,381 @@
         "web": "assets/web/therizinosaurus-ungual-morphology-png.png"
       },
       "altText": "Photo of the proximoventral end of Therizinosaurus ungual (MPC-D 100/15) in oblique view."
+    },
+    {
+      "id": "wmc-tsintaosaurus-spinorhinus-tyrannosaurus-rex",
+      "category": "dinosaur-reconstruction",
+      "title": "Tsintaosaurus spinorhinus & Tyrannosaurus Rex.jpg",
+      "subject": "Tyrannosaurus",
+      "creator": "Gary Todd",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tsintaosaurus_spinorhinus_%26_Tyrannosaurus_Rex.jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/tsintaosaurus-spinorhinus-tyrannosaurus-rex.jpg.jpg",
+        "web": "assets/web/tsintaosaurus-spinorhinus-tyrannosaurus-rex.jpg.jpg"
+      },
+      "altText": "Henan Geological Museum, Zhengzhou, China. Complete indexed photo collection at WorldHistoryPics.com."
+    },
+    {
+      "id": "wmc-tyrannosaurus-rex-zhengzhou-",
+      "category": "dinosaur-reconstruction",
+      "title": "Tyrannosaurus Rex (Zhengzhou).jpg",
+      "subject": "Tyrannosaurus",
+      "creator": "Gary Todd",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tyrannosaurus_Rex_(Zhengzhou).jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/tyrannosaurus-rex-zhengzhou-.jpg.jpg",
+        "web": "assets/web/tyrannosaurus-rex-zhengzhou-.jpg.jpg"
+      },
+      "altText": "Henan Geological Museum, Zhengzhou, China. Complete indexed photo collection at WorldHistoryPics.com."
+    },
+    {
+      "id": "wmc-ichthyosaurus-communis-in-london",
+      "category": "fossil-photo",
+      "title": "Ichthyosaurus communis in London.jpg",
+      "subject": "Ichthyosaurus",
+      "creator": "Gary Todd",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ichthyosaurus_communis_in_London.jpg",
+      "license": "CC0",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/ichthyosaurus-communis-in-london.jpg.jpg",
+        "web": "assets/web/ichthyosaurus-communis-in-london.jpg.jpg"
+      },
+      "altText": "Natural History Museum, London, England, UK. Complete indexed photo collection at WorldHistoryPics.com."
+    },
+    {
+      "id": "wmc-siegsdorfer-mammut",
+      "category": "fossil-photo",
+      "title": "Siegsdorfer Mammut.jpg",
+      "subject": "Woolly",
+      "creator": "Lou.gruber",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Siegsdorfer_Mammut.jpg",
+      "license": "Public domain",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/siegsdorfer-mammut.jpg.jpg",
+        "web": "assets/web/siegsdorfer-mammut.jpg.jpg"
+      },
+      "altText": "Siegsdorfer Mammut"
+    },
+    {
+      "id": "wmc-dino-bird-h",
+      "category": "fossil-photo",
+      "title": "Dino bird h.jpg",
+      "subject": "Theropod",
+      "creator": "Zina Deretsky, National Science Foundation",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dino_bird_h.jpg",
+      "license": "Public domain",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dino-bird-h.jpg.jpg",
+        "web": "assets/web/dino-bird-h.jpg.jpg"
+      },
+      "altText": "Comparison of the air sac system of birds and Majungasaurus."
+    },
+    {
+      "id": "wmc-1883-megalosaurus-skull-restoration-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "1883-megalosaurus-skull-restoration-jpg.jpg",
+      "subject": "1883",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/1883-megalosaurus-skull-restoration-jpg.jpg",
+        "web": "assets/web/1883-megalosaurus-skull-restoration-jpg.jpg"
+      },
+      "altText": "Image of 1883 megalosaurus skull restoration jpg"
+    },
+    {
+      "id": "wmc-adult-centrosaurus-skull-36323668702-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "adult-centrosaurus-skull-36323668702-jpg.jpg",
+      "subject": "Adult",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/adult-centrosaurus-skull-36323668702-jpg.jpg",
+        "web": "assets/web/adult-centrosaurus-skull-36323668702-jpg.jpg"
+      },
+      "altText": "Image of adult centrosaurus skull 36323668702 jpg"
+    },
+    {
+      "id": "wmc-brachiosaurus-db",
+      "category": "dinosaur-reconstruction",
+      "title": "brachiosaurus-db.jpg.jpg",
+      "subject": "Brachiosaurus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/brachiosaurus-db.jpg.jpg",
+        "web": "assets/web/brachiosaurus-db.jpg.jpg"
+      },
+      "altText": "Image of brachiosaurus db"
+    },
+    {
+      "id": "wmc-dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-01-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-01-jpg.jpg",
+      "subject": "Dinosaur",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-01-jpg.jpg",
+        "web": "assets/web/dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-01-jpg.jpg"
+      },
+      "altText": "Image of dinosaur egg museum xixia dinosaur park psittacosaurus skeleton 01 jpg"
+    },
+    {
+      "id": "wmc-dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-02-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-02-jpg.jpg",
+      "subject": "Dinosaur",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-02-jpg.jpg",
+        "web": "assets/web/dinosaur-egg-museum-xixia-dinosaur-park-psittacosaurus-skeleton-02-jpg.jpg"
+      },
+      "altText": "Image of dinosaur egg museum xixia dinosaur park psittacosaurus skeleton 02 jpg"
+    },
+    {
+      "id": "wmc-dinosaur-egg-museum-xixia-dinosaur-park-sinornithosaurus-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "dinosaur-egg-museum-xixia-dinosaur-park-sinornithosaurus-jpg.jpg",
+      "subject": "Dinosaur",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-egg-museum-xixia-dinosaur-park-sinornithosaurus-jpg.jpg",
+        "web": "assets/web/dinosaur-egg-museum-xixia-dinosaur-park-sinornithosaurus-jpg.jpg"
+      },
+      "altText": "Image of dinosaur egg museum xixia dinosaur park sinornithosaurus jpg"
+    },
+    {
+      "id": "wmc-dinosaur-eggs-fossil-indet-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "dinosaur-eggs-fossil-indet-jpg.jpg",
+      "subject": "Dinosaur",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-eggs-fossil-indet-jpg.jpg",
+        "web": "assets/web/dinosaur-eggs-fossil-indet-jpg.jpg"
+      },
+      "altText": "Image of dinosaur eggs fossil indet jpg"
+    },
+    {
+      "id": "wmc-dinosaur-fossil-32429376468-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "dinosaur-fossil-32429376468-jpg.jpg",
+      "subject": "Dinosaur",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-fossil-32429376468-jpg.jpg",
+        "web": "assets/web/dinosaur-fossil-32429376468-jpg.jpg"
+      },
+      "altText": "Image of dinosaur fossil 32429376468 jpg"
+    },
+    {
+      "id": "wmc-dinosaur-fossil-on-display-in-the-american-museum-of-natural-history-2009-12-23-",
+      "category": "dinosaur-reconstruction",
+      "title": "dinosaur-fossil-on-display-in-the-american-museum-of-natural-history-2009-12-23-.jpg",
+      "subject": "Dinosaur",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/dinosaur-fossil-on-display-in-the-american-museum-of-natural-history-2009-12-23-.jpg",
+        "web": "assets/web/dinosaur-fossil-on-display-in-the-american-museum-of-natural-history-2009-12-23-.jpg"
+      },
+      "altText": "Image of dinosaur fossil on display in the american museum of natural history 2009 12 23"
+    },
+    {
+      "id": "wmc-diplodocus-heinrich-harder-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "diplodocus-heinrich-harder-jpg.jpg",
+      "subject": "Diplodocus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/diplodocus-heinrich-harder-jpg.jpg",
+        "web": "assets/web/diplodocus-heinrich-harder-jpg.jpg"
+      },
+      "altText": "Image of diplodocus heinrich harder jpg"
+    },
+    {
+      "id": "wmc-fossil-dinosaur-egg-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "fossil-dinosaur-egg-jpg.jpg",
+      "subject": "Fossil",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/fossil-dinosaur-egg-jpg.jpg",
+        "web": "assets/web/fossil-dinosaur-egg-jpg.jpg"
+      },
+      "altText": "Image of fossil dinosaur egg jpg"
+    },
+    {
+      "id": "wmc-fossil-dinosaur-eggs-chelonia-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "fossil-dinosaur-eggs-chelonia-jpg.jpg",
+      "subject": "Fossil",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/fossil-dinosaur-eggs-chelonia-jpg.jpg",
+        "web": "assets/web/fossil-dinosaur-eggs-chelonia-jpg.jpg"
+      },
+      "altText": "Image of fossil dinosaur eggs chelonia jpg"
+    },
+    {
+      "id": "wmc-fossil-dinosaur-eggs-macroolithus-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "fossil-dinosaur-eggs-macroolithus-jpg.jpg",
+      "subject": "Fossil",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/fossil-dinosaur-eggs-macroolithus-jpg.jpg",
+        "web": "assets/web/fossil-dinosaur-eggs-macroolithus-jpg.jpg"
+      },
+      "altText": "Image of fossil dinosaur eggs macroolithus jpg"
+    },
+    {
+      "id": "wmc-fukui-prefectural-dinosaur-museum-20210504-14-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "fukui-prefectural-dinosaur-museum-20210504-14-jpg.jpg",
+      "subject": "Fukui",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/fukui-prefectural-dinosaur-museum-20210504-14-jpg.jpg",
+        "web": "assets/web/fukui-prefectural-dinosaur-museum-20210504-14-jpg.jpg"
+      },
+      "altText": "Image of fukui prefectural dinosaur museum 20210504 14 jpg"
+    },
+    {
+      "id": "wmc-hadrosaurus-lithograph",
+      "category": "dinosaur-reconstruction",
+      "title": "hadrosaurus-lithograph.jpg.jpg",
+      "subject": "Hadrosaurus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/hadrosaurus-lithograph.jpg.jpg",
+        "web": "assets/web/hadrosaurus-lithograph.jpg.jpg"
+      },
+      "altText": "Image of hadrosaurus lithograph"
+    },
+    {
+      "id": "wmc-moa-heinrich-harder-jpg",
+      "category": "dinosaur-reconstruction",
+      "title": "moa-heinrich-harder-jpg.jpg",
+      "subject": "Moa",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/moa-heinrich-harder-jpg.jpg",
+        "web": "assets/web/moa-heinrich-harder-jpg.jpg"
+      },
+      "altText": "Image of moa heinrich harder jpg"
+    },
+    {
+      "id": "wmc-tyrannosaurus-group",
+      "category": "dinosaur-reconstruction",
+      "title": "tyrannosaurus-group.jpg.jpg",
+      "subject": "Tyrannosaurus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/tyrannosaurus-group.jpg.jpg",
+        "web": "assets/web/tyrannosaurus-group.jpg.jpg"
+      },
+      "altText": "Image of tyrannosaurus group"
+    },
+    {
+      "id": "wmc-tyrannosaurus-rex-skeleton-is-on-display-in-the-dinosaurs-hall-at-the-smithsonia",
+      "category": "dinosaur-reconstruction",
+      "title": "tyrannosaurus-rex-skeleton-is-on-display-in-the-dinosaurs-hall-at-the-smithsonia.jpg",
+      "subject": "Tyrannosaurus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/tyrannosaurus-rex-skeleton-is-on-display-in-the-dinosaurs-hall-at-the-smithsonia.jpg",
+        "web": "assets/web/tyrannosaurus-rex-skeleton-is-on-display-in-the-dinosaurs-hall-at-the-smithsonia.jpg"
+      },
+      "altText": "Image of tyrannosaurus rex skeleton is on display in the dinosaurs hall at the smithsonia"
+    },
+    {
+      "id": "wmc-ankylosaurus-skull-amnh",
+      "category": "dinosaur-reconstruction",
+      "title": "ankylosaurus-skull-amnh.jpg.jpg",
+      "subject": "Ankylosaurus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/ankylosaurus-skull-amnh.jpg.jpg",
+        "web": "assets/web/ankylosaurus-skull-amnh.jpg.jpg"
+      },
+      "altText": "Image of ankylosaurus skull amnh"
+    },
+    {
+      "id": "wmc-ankylosaurus-skull-brown-1908-fig--2-png",
+      "category": "dinosaur-reconstruction",
+      "title": "ankylosaurus-skull-brown-1908-fig.-2.png.jpg",
+      "subject": "Ankylosaurus",
+      "creator": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "license": "CC BY-SA",
+      "status": "ready",
+      "formats": {
+        "master": "assets/master/ankylosaurus-skull-brown-1908-fig.-2.png.jpg",
+        "web": "assets/web/ankylosaurus-skull-brown-1908-fig.-2.png.jpg"
+      },
+      "altText": "Image of ankylosaurus skull brown 1908 fig  2"
     }
   ]
 }

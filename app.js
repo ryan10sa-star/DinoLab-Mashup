@@ -1,5 +1,87 @@
 const STORAGE_KEY = "dinolab-state-v1";
 
+// ===== Sound Effects System =====
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let soundEnabled = true;
+
+function playSound(type) {
+  if (!soundEnabled || !audioCtx) return;
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    switch(type) {
+      case 'click':
+        osc.frequency.value = 800;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialDecayTo = 0.01;
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+        break;
+      case 'dig':
+        osc.type = 'triangle';
+        osc.frequency.value = 200;
+        osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
+        break;
+      case 'fossil':
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(659, audioCtx.currentTime + 0.1);
+        osc.frequency.setValueAtTime(784, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+        break;
+      case 'victory':
+        playVictoryFanfare();
+        return;
+      case 'roar':
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+        break;
+      case 'boost':
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+        break;
+    }
+  } catch(e) { /* Audio not supported */ }
+}
+
+function playVictoryFanfare() {
+  const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+  notes.forEach((freq, i) => {
+    setTimeout(() => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }, i * 150);
+  });
+}
+
 const fossilSets = {
   Desert: ["Raptor Claw", "Tooth Fragment", "Ancient Egg"],
   Volcano: ["Lava Bone", "Ash Skull", "Fire Crest"],
@@ -61,7 +143,7 @@ function cacheElements() {
     "poster-player", "poster-score", "make-poster-btn", "download-poster", "poster-canvas",
     "daily-quest", "complete-quest-btn", "streak-status", "parent-pin", "set-pin-btn",
     "toggle-lock-btn", "unlock-pin", "unlock-btn", "parent-status", "gallery-scroll",
-    "dino-preview-img", "preview-placeholder", "racer", "confetti-container"
+    "dino-preview-img", "preview-placeholder", "racer", "confetti-container", "sound-toggle"
   ];
   ids.forEach(id => {
     const el = document.getElementById(id);
@@ -114,6 +196,15 @@ function attachEventListeners() {
   elements.set_pin_btn?.addEventListener("click", setParentPin);
   elements.toggle_lock_btn?.addEventListener("click", toggleParentLock);
   elements.unlock_btn?.addEventListener("click", unlockParent);
+  
+  // Sound toggle
+  elements.sound_toggle?.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    if (elements.sound_toggle) {
+      elements.sound_toggle.textContent = soundEnabled ? "🔊" : "🔇";
+    }
+    if (soundEnabled) playSound('click');
+  });
 }
 
 function refreshAll() {
@@ -131,14 +222,16 @@ function renderGallery() {
   if (!elements.gallery_scroll) return;
   elements.gallery_scroll.innerHTML = "";
   
+  // Show all images, shuffled for variety
   const shuffled = [...assetManifest.assets].sort(() => Math.random() - 0.5);
-  shuffled.slice(0, 20).forEach(asset => {
+  shuffled.forEach(asset => {
     const div = document.createElement("div");
     div.className = "gallery-item";
     div.innerHTML = `
       <img src="${asset.formats.web}" alt="${asset.altText}" loading="lazy" />
       <div class="caption">${asset.subject}</div>
     `;
+    div.addEventListener("click", () => playSound('click'));
     elements.gallery_scroll.append(div);
   });
 }
@@ -173,6 +266,8 @@ function refreshLabPreview() {
 function saveDino() {
   if (isLocked()) return;
   
+  playSound('roar');
+  
   const newDino = {
     name: elements.dino_name?.value.trim() || createRandomName(),
     head: elements.head_part?.value || "Horned",
@@ -180,7 +275,7 @@ function saveDino() {
     skin: elements.skin_part?.value || "Forest",
     roar: Number(elements.roar_range?.value || 5),
     speed: Number(elements.speed_range?.value || 5),
-    armor: Number(elements.armor_range?.value || 5),
+    armor: Number(elements.armor_range?.value || 7),
     imageId: getRandomAssetId()
   };
   
@@ -257,6 +352,8 @@ function revealDigTile(button, item, setName) {
   if (button.disabled) return;
   button.disabled = true;
   
+  playSound('dig');
+  
   const fossils = fossilSets[setName];
   const isFossil = fossils.includes(item);
   
@@ -266,11 +363,13 @@ function revealDigTile(button, item, setName) {
     button.innerHTML = `<img src="${button.dataset.imgSrc}" alt="${item}" />`;
     button.classList.add("found-fossil");
     foundInHunt.add(item);
+    playSound('fossil');
   } else {
     button.textContent = isFossil ? `🦴 ${item}` : `💨 ${item}`;
     if (isFossil) {
       button.classList.add("found-fossil");
       foundInHunt.add(item);
+      playSound('fossil');
     }
   }
 
@@ -290,6 +389,7 @@ function revealDigTile(button, item, setName) {
       elements.fossil_status.textContent = `🎉 Set complete: ${setName}! Card unlocked!`;
     }
     triggerConfetti(30);
+    playSound('victory');
   }
 }
 
@@ -322,6 +422,8 @@ function startRace() {
 }
 
 function boostRacer() {
+  playSound('boost');
+  
   const speedBonus = Number(elements.speed_range?.value || 5) * 0.5;
   raceDistance += 3 + speedBonus;
   
@@ -364,6 +466,7 @@ function finishRace() {
   if (medal === "Silver" || medal === "Gold") {
     markCupStep("race_medal", true);
     triggerConfetti(medal === "Gold" ? 40 : 20);
+    playSound('victory');
   }
 
   saveState();

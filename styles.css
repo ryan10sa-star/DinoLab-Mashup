@@ -684,3 +684,142 @@ input:focus, select:focus {
   .app-header h1 { font-size: 1.6rem; }
   .gallery-item { width: 160px; height: 110px; }
 }
+
+/* ===== Premium Polish Effects ===== */
+
+/* Card shimmer effect */
+.dino-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.dino-card:hover::before {
+  left: 100%;
+}
+
+/* Enhanced button press effect */
+.btn-primary:active,
+.btn-secondary:active {
+  transform: scale(0.95);
+}
+
+/* Dig tile shake on hover */
+.dig-tile:hover:not(:disabled) {
+  animation: wiggle 0.3s ease-in-out;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* Fossil discovery pulse */
+.dig-tile.found-fossil {
+  animation: fossil-pulse 0.5s ease-out;
+}
+
+@keyframes fossil-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 var(--glow-green); }
+  50% { transform: scale(1.1); box-shadow: 0 0 30px 10px var(--glow-green); }
+  100% { transform: scale(1); box-shadow: 0 0 15px var(--glow-green); }
+}
+
+/* Race track grass stripes */
+.race-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 40px,
+    rgba(0,0,0,0.1) 40px,
+    rgba(0,0,0,0.1) 80px
+  );
+  pointer-events: none;
+}
+
+/* Running dino animation */
+.racer {
+  animation: dino-run 0.4s steps(2) infinite;
+}
+
+@keyframes dino-run {
+  0% { transform: translateY(-50%) scaleX(1); }
+  50% { transform: translateY(-55%) scaleX(1); }
+  100% { transform: translateY(-50%) scaleX(1); }
+}
+
+/* Better gallery item effects */
+.gallery-item {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gallery-item:hover {
+  z-index: 10;
+}
+
+/* Glowing text for headers */
+.panel-header h2 {
+  text-shadow: 0 0 10px var(--glow-gold);
+}
+
+/* Smooth scroll for gallery */
+.gallery-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced panel hover glow */
+.glow-panel {
+  transition: all 0.4s ease;
+}
+
+.glow-panel:hover {
+  transform: translateY(-4px);
+}
+
+/* Streak badge animation */
+#streak-status {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 5px var(--accent-gold); }
+  50% { text-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--accent-gold); }
+}
+
+/* Sound toggle button (for future) */
+.sound-toggle {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s;
+}
+
+.sound-toggle:hover {
+  border-color: var(--accent-gold);
+  transform: scale(1.1);
+}
