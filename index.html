@@ -26,59 +26,29 @@
   </section>
 
   <main class="layout">
-    <!-- Build-a-Saurus Lab -->
-    <section class="panel glow-panel" id="lab-section">
+    <!-- Dino Discovery Gallery -->
+    <section class="panel glow-panel" id="discovery-section">
       <div class="panel-header">
-        <span class="panel-icon">🦕</span>
-        <h2>Build-a-Saurus Lab</h2>
+        <span class="panel-icon">🔬</span>
+        <h2>Dino Discovery Gallery</h2>
       </div>
-      <div class="dino-preview-area" id="dino-preview-area">
-        <img id="dino-preview-img" src="" alt="Your custom dino" class="preview-img hidden" />
-        <div class="preview-placeholder" id="preview-placeholder">Create your dino!</div>
-      </div>
-      <div class="grid-2">
-        <label>Head
-          <select id="head-part">
-            <option value="Horned">🦎 Horned</option>
-            <option value="Crested">🐉 Crested</option>
-            <option value="Spiky">🦔 Spiky</option>
-            <option value="Beaked">🦜 Beaked</option>
-          </select>
-        </label>
-        <label>Tail
-          <select id="tail-part">
-            <option value="Club">🔨 Club</option>
-            <option value="Whip">〰️ Whip</option>
-            <option value="Feathered">🪶 Feathered</option>
-            <option value="Plated">🛡️ Plated</option>
-          </select>
-        </label>
-        <label>Skin
-          <select id="skin-part">
-            <option value="Forest">🌲 Forest</option>
-            <option value="Volcanic">🌋 Volcanic</option>
-            <option value="Arctic">❄️ Arctic</option>
-            <option value="Desert">🏜️ Desert</option>
-          </select>
-        </label>
-        <label>Roar Power <span id="roar-value" class="stat-badge">5</span>
-          <input id="roar-range" type="range" min="1" max="10" value="5" />
-        </label>
-        <label>Speed <span id="speed-value" class="stat-badge">5</span>
-          <input id="speed-range" type="range" min="1" max="10" value="5" />
-        </label>
-        <label>Armor <span id="armor-value" class="stat-badge">5</span>
-          <input id="armor-range" type="range" min="1" max="10" value="5" />
-        </label>
-      </div>
-      <div class="row actions">
-        <button id="random-name-btn" class="btn-secondary">🎲 Random</button>
-        <input id="dino-name" type="text" placeholder="Name your dino..." class="name-input" />
-        <button id="save-dino-btn" class="btn-primary pulse-btn">💾 Save</button>
-      </div>
-      <p id="lab-preview" class="preview-text"></p>
-      <div class="saved-dinos-grid" id="saved-dinos"></div>
+      <p class="panel-desc">Tap any image to learn amazing facts!</p>
+      <div class="discovery-grid" id="discovery-grid"></div>
     </section>
+
+    <!-- Featured Dino Modal -->
+    <div id="dino-modal" class="dino-modal hidden">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">✕</button>
+        <img id="modal-img" src="" alt="Featured dinosaur" />
+        <div class="modal-info">
+          <h3 id="modal-title"></h3>
+          <p id="modal-period" class="modal-period"></p>
+          <div id="modal-facts" class="modal-facts"></div>
+          <button id="modal-next" class="btn-primary">🎲 Discover Another!</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Fossil Hunt -->
     <section class="panel glow-panel" id="fossil-section">

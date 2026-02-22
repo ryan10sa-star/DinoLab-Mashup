@@ -89,10 +89,12 @@ const fossilSets = {
 };
 
 const dailyQuestPool = [
-  "Save one new dino",
+  "Discover 3 different dinosaurs",
   "Find one complete fossil set",
   "Earn at least a Silver race medal",
-  "Generate one victory poster"
+  "Generate one victory poster",
+  "Learn fun facts about a T-Rex",
+  "Explore the prehistoric gallery"
 ];
 
 const initialState = {
@@ -129,21 +131,22 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshAll();
     renderPoster();
     renderGallery();
+    renderDiscoveryGallery();
     registerServiceWorker();
   });
 });
 
 function cacheElements() {
   const ids = [
-    "head-part", "tail-part", "skin-part", "roar-range", "speed-range", "armor-range",
-    "roar-value", "speed-value", "armor-value", "random-name-btn", "dino-name",
-    "save-dino-btn", "lab-preview", "saved-dinos", "fossil-set", "new-hunt-btn",
-    "dig-grid", "fossil-status", "start-race-btn", "boost-btn", "race-status",
-    "race-timer", "card-list", "collection-summary", "cup-list", "cup-status",
+    "fossil-set", "new-hunt-btn", "dig-grid", "fossil-status", 
+    "start-race-btn", "boost-btn", "race-status", "race-timer", 
+    "card-list", "collection-summary", "cup-list", "cup-status",
     "poster-player", "poster-score", "make-poster-btn", "download-poster", "poster-canvas",
     "daily-quest", "complete-quest-btn", "streak-status", "parent-pin", "set-pin-btn",
     "toggle-lock-btn", "unlock-pin", "unlock-btn", "parent-status", "gallery-scroll",
-    "dino-preview-img", "preview-placeholder", "racer", "confetti-container", "sound-toggle"
+    "racer", "confetti-container", "sound-toggle",
+    "discovery-grid", "dino-modal", "modal-close", "modal-img", 
+    "modal-title", "modal-period", "modal-facts", "modal-next"
   ];
   ids.forEach(id => {
     const el = document.getElementById(id);
@@ -170,19 +173,6 @@ function setupFossilSetOptions() {
 }
 
 function attachEventListeners() {
-  [elements.roar_range, elements.speed_range, elements.armor_range].forEach(el => {
-    el?.addEventListener("input", refreshLabPreview);
-  });
-  [elements.head_part, elements.tail_part, elements.skin_part].forEach(el => {
-    el?.addEventListener("change", refreshLabPreview);
-  });
-
-  elements.random_name_btn?.addEventListener("click", () => {
-    if (elements.dino_name) elements.dino_name.value = createRandomName();
-    refreshLabPreview();
-  });
-
-  elements.save_dino_btn?.addEventListener("click", saveDino);
   elements.new_hunt_btn?.addEventListener("click", startNewHunt);
   elements.start_race_btn?.addEventListener("click", startRace);
   elements.boost_btn?.addEventListener("click", boostRacer);
@@ -205,11 +195,16 @@ function attachEventListeners() {
     }
     if (soundEnabled) playSound('click');
   });
+  
+  // Modal controls
+  elements.modal_close?.addEventListener("click", closeModal);
+  elements.modal_next?.addEventListener("click", showRandomDino);
+  elements.dino_modal?.addEventListener("click", (e) => {
+    if (e.target === elements.dino_modal) closeModal();
+  });
 }
 
 function refreshAll() {
-  refreshLabPreview();
-  refreshSavedDinos();
   refreshCollection();
   refreshRaceStatus();
   refreshCup();
@@ -231,84 +226,222 @@ function renderGallery() {
       <img src="${asset.formats.web}" alt="${asset.altText}" loading="lazy" />
       <div class="caption">${asset.subject}</div>
     `;
-    div.addEventListener("click", () => playSound('click'));
+    div.addEventListener("click", () => openDinoModal(asset));
     elements.gallery_scroll.append(div);
   });
 }
 
-// ===== Lab =====
-function refreshLabPreview() {
-  if (elements.roar_value) elements.roar_value.textContent = elements.roar_range?.value || 5;
-  if (elements.speed_value) elements.speed_value.textContent = elements.speed_range?.value || 5;
-  if (elements.armor_value) elements.armor_value.textContent = elements.armor_range?.value || 5;
-
-  const name = elements.dino_name?.value.trim() || "Unnamed Dino";
-  const head = elements.head_part?.value || "Horned";
-  const tail = elements.tail_part?.value || "Club";
-  const skin = elements.skin_part?.value || "Forest";
-
-  if (elements.lab_preview) {
-    elements.lab_preview.textContent = `${name} • ${head} head • ${tail} tail • ${skin} skin`;
+// ===== Dino Discovery Gallery with Fun Facts =====
+const dinoFacts = {
+  "tyrannosaurus": {
+    name: "Tyrannosaurus Rex",
+    period: "Late Cretaceous (68-66 million years ago)",
+    facts: [
+      { emoji: "👑", text: "T-Rex means 'Tyrant Lizard King' - the most famous dinosaur ever!" },
+      { emoji: "🦷", text: "Had 60 huge teeth, some as long as bananas!" },
+      { emoji: "🏃", text: "Could run about 12 mph - faster than most humans!" },
+      { emoji: "👃", text: "Had an amazing sense of smell to find food from miles away" }
+    ]
+  },
+  "triceratops": {
+    name: "Triceratops",
+    period: "Late Cretaceous (68-66 million years ago)",
+    facts: [
+      { emoji: "🦏", text: "Name means 'Three-Horned Face' - it had 3 horns!" },
+      { emoji: "🛡️", text: "The frill on its head was made of solid bone for protection" },
+      { emoji: "🌿", text: "Was a plant-eater with a beak like a parrot" },
+      { emoji: "📏", text: "Grew up to 30 feet long - as big as a school bus!" }
+    ]
+  },
+  "stegosaurus": {
+    name: "Stegosaurus",
+    period: "Late Jurassic (155-150 million years ago)",
+    facts: [
+      { emoji: "🔺", text: "Had 17 bony plates along its back that may have helped control body temperature" },
+      { emoji: "⚔️", text: "Its tail had 4 sharp spikes called a 'thagomizer' for defense" },
+      { emoji: "🧠", text: "Had a brain the size of a walnut - tiny for such a big animal!" },
+      { emoji: "🦕", text: "Was as heavy as a car but only as tall as an elephant" }
+    ]
+  },
+  "diplodocus": {
+    name: "Diplodocus",
+    period: "Late Jurassic (154-152 million years ago)",
+    facts: [
+      { emoji: "📏", text: "One of the longest dinosaurs ever - up to 85 feet long!" },
+      { emoji: "🦒", text: "Had a super long neck to reach leaves high in trees" },
+      { emoji: "💨", text: "Could crack its tail like a whip - loud enough to scare predators!" },
+      { emoji: "🥬", text: "Ate plants all day long - needed lots of food for its huge body" }
+    ]
+  },
+  "mammoth": {
+    name: "Woolly Mammoth",
+    period: "Ice Age (400,000-4,000 years ago)",
+    facts: [
+      { emoji: "🧥", text: "Had thick woolly fur up to 3 feet long to stay warm in the Ice Age" },
+      { emoji: "🦷", text: "Tusks could grow up to 15 feet long - curved like spirals!" },
+      { emoji: "❄️", text: "Lived alongside early humans who painted them in caves" },
+      { emoji: "🐘", text: "Close relative of modern elephants - looked like a furry elephant!" }
+    ]
+  },
+  "smilodon": {
+    name: "Smilodon (Saber-Tooth Cat)",
+    period: "Ice Age (2.5 million-10,000 years ago)",
+    facts: [
+      { emoji: "🦁", text: "Had 7-inch fangs - longer than a banana!" },
+      { emoji: "💪", text: "Was much stronger than modern lions, built like a wrestler" },
+      { emoji: "🎯", text: "Used its huge teeth to take down mammoths and bison" },
+      { emoji: "🐱", text: "Not actually a tiger - it's its own special kind of cat!" }
+    ]
+  },
+  "pteranodon": {
+    name: "Pteranodon",
+    period: "Late Cretaceous (86-84 million years ago)",
+    facts: [
+      { emoji: "✈️", text: "Wingspan of up to 23 feet - wider than a small airplane!" },
+      { emoji: "🦅", text: "Not a dinosaur, but a flying reptile called a pterosaur" },
+      { emoji: "🐟", text: "Scooped fish from the ocean like a pelican" },
+      { emoji: "👒", text: "Had a cool crest on its head - scientists aren't sure why!" }
+    ]
+  },
+  "ankylosaurus": {
+    name: "Ankylosaurus",
+    period: "Late Cretaceous (68-66 million years ago)",
+    facts: [
+      { emoji: "🛡️", text: "Covered head-to-tail in bony armor plates like a tank!" },
+      { emoji: "🔨", text: "Tail club could break bones - even T-Rex stayed away!" },
+      { emoji: "🐢", text: "Built low to the ground so predators couldn't flip it over" },
+      { emoji: "🧱", text: "Even its eyelids had armor on them!" }
+    ]
+  },
+  "ichthyosaurus": {
+    name: "Ichthyosaurus",
+    period: "Early Jurassic (200-190 million years ago)",
+    facts: [
+      { emoji: "🐬", text: "Looked like a dolphin but was actually a marine reptile!" },
+      { emoji: "👀", text: "Had the biggest eyes of any animal ever - to see in dark water" },
+      { emoji: "🏊", text: "One of the fastest swimmers in prehistoric oceans" },
+      { emoji: "🦎", text: "Gave birth to live babies instead of laying eggs" }
+    ]
+  },
+  "trilobite": {
+    name: "Trilobite",
+    period: "Cambrian to Permian (521-252 million years ago)",
+    facts: [
+      { emoji: "🦀", text: "One of the first animals with eyes - they were made of crystal!" },
+      { emoji: "📅", text: "Lived for over 270 million years - way longer than dinosaurs!" },
+      { emoji: "🪲", text: "Related to modern crabs, lobsters, and insects" },
+      { emoji: "🌊", text: "Lived on the ocean floor eating tiny bits of food" }
+    ]
+  },
+  "fossil": {
+    name: "Ancient Fossil",
+    period: "Millions of years ago",
+    facts: [
+      { emoji: "🪨", text: "Fossils form when bones get buried and turn to stone over millions of years" },
+      { emoji: "🔬", text: "Scientists called paleontologists study fossils to learn about the past" },
+      { emoji: "🗺️", text: "Fossils have been found on every continent, even Antarctica!" },
+      { emoji: "💎", text: "The oldest fossils are over 3.5 billion years old!" }
+    ]
+  },
+  "egg": {
+    name: "Dinosaur Egg",
+    period: "Mesozoic Era (252-66 million years ago)",
+    facts: [
+      { emoji: "🥚", text: "Dinosaur eggs came in many shapes - round, oval, and even long tubes!" },
+      { emoji: "📏", text: "The biggest dino eggs were about the size of a football" },
+      { emoji: "🪺", text: "Some dinosaurs built nests and cared for their babies like birds" },
+      { emoji: "🐣", text: "Baby dinosaurs hatched from eggs just like birds and reptiles today" }
+    ]
+  },
+  "default": {
+    name: "Prehistoric Creature",
+    period: "Millions of years ago",
+    facts: [
+      { emoji: "🦕", text: "Dinosaurs ruled the Earth for over 160 million years!" },
+      { emoji: "🌍", text: "Fossils help us learn what life was like long before humans existed" },
+      { emoji: "🔍", text: "New dinosaur species are discovered every year around the world" },
+      { emoji: "⭐", text: "You're looking at something that lived millions of years ago!" }
+    ]
   }
+};
 
-  // Show random dino image in preview
-  const dinoAssets = assetManifest.assets.filter(a => 
-    a.category === "dinosaur-reconstruction" || a.title.toLowerCase().includes("skeleton")
-  );
-  if (dinoAssets.length > 0 && elements.dino_preview_img) {
-    const randomAsset = dinoAssets[Math.floor(Math.random() * dinoAssets.length)];
-    elements.dino_preview_img.src = randomAsset.formats.web;
-    elements.dino_preview_img.classList.remove("hidden");
-    if (elements.preview_placeholder) elements.preview_placeholder.style.display = "none";
+function getFactsForAsset(asset) {
+  const title = (asset.title + " " + asset.subject + " " + asset.altText).toLowerCase();
+  
+  for (const [key, data] of Object.entries(dinoFacts)) {
+    if (key !== "default" && title.includes(key)) {
+      return data;
+    }
   }
+  
+  // Check for specific keywords
+  if (title.includes("egg")) return dinoFacts.egg;
+  if (title.includes("fossil") || title.includes("skeleton")) return dinoFacts.fossil;
+  if (title.includes("mammoth")) return dinoFacts.mammoth;
+  if (title.includes("saber") || title.includes("smilodon")) return dinoFacts.smilodon;
+  
+  return dinoFacts.default;
 }
 
-function saveDino() {
-  if (isLocked()) return;
+function renderDiscoveryGallery() {
+  if (!elements.discovery_grid) return;
+  elements.discovery_grid.innerHTML = "";
   
-  playSound('roar');
-  
-  const newDino = {
-    name: elements.dino_name?.value.trim() || createRandomName(),
-    head: elements.head_part?.value || "Horned",
-    tail: elements.tail_part?.value || "Club",
-    skin: elements.skin_part?.value || "Forest",
-    roar: Number(elements.roar_range?.value || 5),
-    speed: Number(elements.speed_range?.value || 5),
-    armor: Number(elements.armor_range?.value || 7),
-    imageId: getRandomAssetId()
-  };
-  
-  state.dinos.push(newDino);
-  unlockCardIfNew(`Creator-${newDino.name}`, "Rare");
-  markCupStep("create_dino", true);
-  saveState();
-  refreshAll();
-  triggerConfetti(15);
-}
-
-function refreshSavedDinos() {
-  if (!elements.saved_dinos) return;
-  elements.saved_dinos.innerHTML = "";
-  
-  if (state.dinos.length === 0) {
-    elements.saved_dinos.innerHTML = '<div class="saved-dino-card"><div class="dino-name">No dinos yet!</div></div>';
-    return;
-  }
-
-  state.dinos.slice(-6).reverse().forEach(dino => {
-    const asset = getAssetById(dino.imageId);
-    const imgSrc = asset?.formats.web || "assets/web/diplodocus-heinrich-harder-jpg.jpg";
-    
+  const shuffled = [...assetManifest.assets].sort(() => Math.random() - 0.5);
+  shuffled.forEach(asset => {
+    const facts = getFactsForAsset(asset);
     const card = document.createElement("div");
-    card.className = "saved-dino-card";
+    card.className = "discovery-card";
     card.innerHTML = `
-      <img src="${imgSrc}" alt="${dino.name}" />
-      <div class="dino-name">${dino.name}</div>
-      <div class="dino-stats">S${dino.speed} A${dino.armor} R${dino.roar}</div>
+      <img src="${asset.formats.web}" alt="${asset.altText}" loading="lazy" />
+      <div class="card-label">${facts.name}</div>
     `;
-    elements.saved_dinos.append(card);
+    card.addEventListener("click", () => openDinoModal(asset));
+    elements.discovery_grid.append(card);
   });
+}
+
+function openDinoModal(asset) {
+  playSound('click');
+  
+  const facts = getFactsForAsset(asset);
+  
+  if (elements.modal_img) elements.modal_img.src = asset.formats.web;
+  if (elements.modal_title) elements.modal_title.textContent = facts.name;
+  if (elements.modal_period) elements.modal_period.textContent = `🕐 ${facts.period}`;
+  
+  if (elements.modal_facts) {
+    elements.modal_facts.innerHTML = facts.facts.map(f => 
+      `<div class="fact-item"><span class="fact-emoji">${f.emoji}</span>${f.text}</div>`
+    ).join("");
+  }
+  
+  elements.dino_modal?.classList.remove("hidden");
+  
+  // Track discovery for achievements
+  if (!state.discoveredDinos) state.discoveredDinos = [];
+  if (!state.discoveredDinos.includes(facts.name)) {
+    state.discoveredDinos.push(facts.name);
+    if (state.discoveredDinos.length >= 5) {
+      unlockCardIfNew("Junior Paleontologist", "Rare");
+      markCupStep("create_dino", true); // Reuse cup step for discoveries
+    }
+    if (state.discoveredDinos.length >= 10) {
+      unlockCardIfNew("Dino Expert", "Epic");
+    }
+    saveState();
+    refreshCollection();
+  }
+}
+
+function closeModal() {
+  elements.dino_modal?.classList.add("hidden");
+}
+
+function showRandomDino() {
+  const randomAsset = assetManifest.assets[Math.floor(Math.random() * assetManifest.assets.length)];
+  openDinoModal(randomAsset);
+  playSound('fossil');
 }
 
 // ===== Fossil Hunt =====
@@ -523,7 +656,7 @@ function refreshCollection() {
 // ===== Cup =====
 function refreshCup() {
   const challenges = [
-    { id: "create_dino", label: "Build and save a custom dino" },
+    { id: "create_dino", label: "Discover 5 different dinosaurs" },
     { id: "fossil_set", label: "Complete a fossil set" },
     { id: "race_medal", label: "Earn Silver or Gold medal" },
     { id: "make_poster", label: "Generate a victory poster" }
