@@ -19,7 +19,7 @@
 
 ## Image Gallery
 
-The app includes **27 copyright-free images** from Wikimedia Commons:
+The app includes **33 open-license images** from Wikimedia Commons:
 - Dinosaur fossils & museum reconstructions
 - Prehistoric marine & flying reptiles
 - Ice Age megafauna (mammoth, smilodon)
@@ -49,10 +49,10 @@ The app includes **27 copyright-free images** from Wikimedia Commons:
 ## Asset Folder Structure
 
 - `assets/master/` for original licensed files (JPEG/PNG)
-- `assets/web/` for optimized runtime files (WebP)
+- `assets/web/` for optimized runtime files (currently JPEG/PNG copies)
 - `data/assets-manifest.json` for attribution + license tracking
 
-Do not ship production assets unless `status` is updated from `todo-source` to a verified licensed state.
+Do not ship production assets unless `status` is `ready` and attribution/license metadata remains complete.
 
 ## Goal
 
